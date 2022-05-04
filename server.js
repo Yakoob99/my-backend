@@ -1,7 +1,11 @@
-console.log('Hello')
+console.log('Server has started')
 
 const express = require('express');
 const app = express();
+const bodyParser= require('body-parser')
+const MongoClient = require('mongodb').MongoClient
+
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.listen(4000, function() {
     console.log('listening on 3000')
@@ -16,8 +20,32 @@ app.listen(4000, function() {
 
 
   app.get('/DBhash/:hash', (req, res) => {
-      console.log("request made", req.params.hash)
-    res.send('True')
+      console.log("request made:", req.params.hash)
+ // Hash value is req.params.hash
+      
+  MongoClient.connect("mongodb://localhost:27017")
+  .then(client => {
+    // ...
+    const db = client.db('webHash')
+    const hashCollection = db.collection('Hashes')
+
+   
+    db.collection('Hashes').find().toArray()
+      .then(results => {
+        console.log(results)
+        console.log(results.includes(req.params.hash))
+        console.log(req.params.hash)
+        res.send((results.includes(req.params.hash)))
+        
+      })
+      .catch(error => console.error(error))
+
   })
-  // Hash value is req.params.hash
+  .catch(console.error)
+
+    
+
+
+  })
+ 
 
