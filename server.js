@@ -26,12 +26,13 @@ app.listen(4000, function() {
   MongoClient.connect("mongodb://localhost:27017")
   .then(client => {
     // ...
-    const db = client.db('webHash')
-    const hashCollection = db.collection('Hashes')
+    const db = client.db('DBhash')
+    const hashCollection = db.collection('Hash')
 
    
-    db.collection('Hashes').find().toArray()
+    db.collection('Hash').find().toArray()
       .then(results => {
+        results= results.map((value) => value.Hash) 
         console.log(results)
         console.log(results.includes(req.params.hash))
         console.log(req.params.hash)
