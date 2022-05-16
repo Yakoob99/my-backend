@@ -35,7 +35,7 @@ app.listen(4000, function() {
         results= results.map((value) => value.Hash) 
         console.log(results)
         console.log(results.includes(req.params.hash))
-        console.log(req.params.hash)
+        console.log("The hash is", req.params.hash)
         res.send((results.includes(req.params.hash)))
         
       })
@@ -65,6 +65,7 @@ MongoClient.connect("mongodb://localhost:27017")
     hashCollection.insertOne({Hash: req.params.hash})
       .then(result => {
         console.log(result)
+        console.log(req.params.hash)
       })
       .catch(error => console.error(error))
   })
