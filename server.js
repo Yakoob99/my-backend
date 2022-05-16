@@ -49,4 +49,26 @@ app.listen(4000, function() {
 
   })
  
+  app.post('/DBhash/:hash', (req, res) => {
+    console.log("request made to add Hash:", req.params.hash)
+// Hash value is req.params.hash
+
+    
+MongoClient.connect("mongodb://localhost:27017")
+.then(client => {
+  // ...
+  const db = client.db('DBhash')
+  const hashCollection = db.collection('Hash')
+  console.log("Hello")
+
+  
+    hashCollection.insertOne({Hash: req.params.hash})
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.error(error))
+  })
+
+})
+
 
